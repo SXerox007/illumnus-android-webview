@@ -5,6 +5,8 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
+import android.os.AsyncTask;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
@@ -18,6 +20,7 @@ import java.io.IOException;
 public class MainActivity extends AppCompatActivity {
 
     private WebView wb;
+    private AlertDialog alertDialog;
 
     private class HelloWebViewClient extends WebViewClient {
         @Override
@@ -30,34 +33,61 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+//        AsyncTask.execute(new Runnable() {
+//            @Override
+//            public void run() {
+//                //TODO your background code
+//                    if (!isNetworkConnected() ) {
+//                        showAlertMsg();
+//                    }
+//            }
+//        });
+        startSyncThread();
         connectivity();
+
+    }
+
+
+    public void startSyncThread() {
+        final Handler handler = new Handler();
+        final int delay = 1000;
+
+        handler.postDelayed(new Runnable() {
+            public void run() {
+                if (!isNetworkConnected() ) {
+                    if(!alertDialog.isShowing())
+                        showAlertMsg();
+                    }
+                handler.postDelayed(this, delay);
+            }
+        }, delay);
     }
 
 
     private void connectivity() {
-        if (isNetworkConnected()) {
-            init();
-        } else {
-            try {
-                AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        init();
+    }
 
-                alertDialog.setTitle("Info");
-                alertDialog.setMessage("Internet not available, Cross check your internet connectivity and try again");
-                alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
-                alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        connectivity();
-                    }
-                });
 
-                alertDialog.show();
-            } catch (Exception e) {
-                Log.d("Error", "Show Dialog: " + e.getMessage());
-            }
+    private void showAlertMsg(){
+        try {
+            alertDialog.setTitle("Info");
+            alertDialog.setMessage("Internet not available, Cross check your internet connectivity and try again");
+            alertDialog.setIcon(android.R.drawable.ic_dialog_alert);
+            alertDialog.setButton("OK", new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int which) {
+                    alertDialog.dismiss();
+                }
+            });
+
+            alertDialog.show();
+        } catch (Exception e) {
+            Log.d("Error", "Show Dialog: " + e.getMessage());
         }
     }
 
     private void init() {
+        alertDialog = new AlertDialog.Builder(this).create();
         wb = findViewById(R.id.webView1);
         wb.getSettings().setJavaScriptEnabled(true);
         wb.getSettings().setLoadWithOverviewMode(true);
