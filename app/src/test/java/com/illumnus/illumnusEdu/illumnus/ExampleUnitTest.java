@@ -1,4 +1,4 @@
-package com.example.sumitthakur.myapplication;
+package com.illumnus.illumnusEdu.illumnus;
 
 import org.junit.Test;
 

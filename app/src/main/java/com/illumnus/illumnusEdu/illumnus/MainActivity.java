@@ -1,11 +1,10 @@
-package com.example.sumitthakur.myapplication;
+package com.illumnus.illumnusEdu.illumnus;
 
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
-import android.os.AsyncTask;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +13,8 @@ import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+
+
 
 import java.io.IOException;
 
