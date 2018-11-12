@@ -1,4 +1,4 @@
-package com.illumnus.illumnusEdu.illumnus;
+package com.illumnus.app;
 
 
 import android.app.AlertDialog;
@@ -15,6 +15,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 
+import com.illumnus.illumnusEdu.illumnus.R;
 
 import java.io.IOException;
 
@@ -126,5 +127,4 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
         }
     }
-
 }
